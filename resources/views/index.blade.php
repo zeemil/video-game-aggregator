@@ -206,9 +206,36 @@
 
                 </div>
             </div>
-            <div class="recently-anticipated w-1/4">
-                Lorem ipsum dolor
+            <div class="most-anticipated lg:w-1/4 mt-12 lg:mt-0">
+                <h2 class="text-blue-500 uppercase tracking-wide font-semibold">Most anticipated</h2>
+                <div class="most-anticipated-container space-y-10 mt-8">
+                    <div class="game flex">
+                        <a href="#">
+                            <img src="/ff7.jpg" alt="game cover"
+                                 class="w-16 hover:opacity-75 transition ease-in-out duration-150">
+                        </a>
+                        <div class="ml-4">
+                            <a href="#" class="hover:text-gray-300">Final Fantasy 7</a>
+                            <div class="text-gray-400 text-sm mt-1">September 16, 2020</div>
+                        </div>
+                    </div>
+                </div>
+
+                <h2 class="text-blue-500 uppercase tracking-wide font-semibold mt-12">Coming Soon</h2>
+                <div class="coming-soon-container space-y-10 mt-8">
+                    <div class="game flex">
+                        <a href="#">
+                            <img src="/ff7.jpg" alt="game cover"
+                                 class="w-16 hover:opacity-75 transition ease-in-out duration-150">
+                        </a>
+                        <div class="ml-4">
+                            <a href="#" class="hover:text-gray-300">Final Fantasy 7</a>
+                            <div class="text-gray-400 text-sm mt-1">September 16, 2020</div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
 
     </div>
