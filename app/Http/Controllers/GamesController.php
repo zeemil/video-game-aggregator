@@ -21,10 +21,10 @@ class GamesController extends Controller
         $popularGames = Http::withHeaders(config('services.igdb'))
         ->withBody(
             "fields name, cover.url, first_release_date, platforms.abbreviation, rating;
-            where platforms = (48,49,130,6)
+            where rating != null & cover != null
             & (first_release_date >= {$before}
             & first_release_date < {$after});
-         sort rating asc; 
+         sort rating desc; 
          limit 12;",
             'text/html')
         ->post('https://api.igdb.com/v4/games')
@@ -33,7 +33,7 @@ class GamesController extends Controller
         $recentlyReviewed = Http::withHeaders(config('services.igdb'))
             ->withBody(
                 "fields name, cover.url, first_release_date, platforms.abbreviation, rating_count, summary, rating;
-            where platforms = (48,49,130,6)
+            where rating != null & cover != null
             & (first_release_date >= {$before}
             & first_release_date < {$current}
             & rating_count > 5);
@@ -46,10 +46,10 @@ class GamesController extends Controller
         $mostAnticipated = Http::withHeaders(config('services.igdb'))
             ->withBody(
                 "fields name, cover.url, first_release_date, platforms.abbreviation, rating_count, rating;
-            where platforms = (48,49,130,6)
+            where rating != null & cover != null
             & (first_release_date >= {$current}
             & first_release_date < {$afterFourMonths});
-         sort rating asc;
+         sort rating desc;
          limit 4;",
                 'text/html')
             ->post('https://api.igdb.com/v4/games')
@@ -58,7 +58,7 @@ class GamesController extends Controller
         $commingSoon = Http::withHeaders(config('services.igdb'))
             ->withBody(
                 "fields name, cover.url, first_release_date, platforms.abbreviation, rating_count, rating;
-            where platforms = (48,49,130,6)
+            where rating != null & cover != null
            & (first_release_date >= {$current}
             & first_release_date < {$after});
          sort first_release_date desc;
