@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Livewire\Component;
 
@@ -14,19 +15,21 @@ class RecentlyReviewed extends Component
         $before = Carbon::now()->subMonths(2)->timestamp;
         $current = Carbon::now()->timestamp;
 
-        $this->recentlyReviewed = Http::withHeaders(config('services.igdb'))
-            ->withBody(
-                "fields name, cover.url, first_release_date, platforms.abbreviation, rating_count, summary, rating;
+        $this->recentlyReviewed = Cache::remember('recently-reviewed', 30, function () use($before, $current) {
+            return Http::withHeaders(config('services.igdb'))
+                ->withBody(
+                    "fields name, cover.url, first_release_date, platforms.abbreviation, rating_count, summary, rating;
             where rating != null & cover != null
             & (first_release_date >= {$before}
             & first_release_date < {$current}
             & rating_count > 5);
          sort rating asc;
          limit 3;",
-                'text/html'
-            )
-            ->post('https://api.igdb.com/v4/games')
-            ->json();
+                    'text/html'
+                )
+                ->post('https://api.igdb.com/v4/games')
+                ->json();
+        });
     }
     public function render()
     {
