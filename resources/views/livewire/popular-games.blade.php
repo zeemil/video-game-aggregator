@@ -25,7 +25,19 @@
             </div>
         </div>
     @empty
-        <div class="spinner mt-8"></div>
+        @foreach(range(1,12) as $game)
+            <div class="game mt-8">
+                <div class="relative inline-block">
+                    <div class="bg-gray-800 w-44 h-56"></div>
+                    <div class="block text-transparent text-lg bg-gray-700 rounded leading-tight mt-4">Title goes here
+                    </div>
+                    <div class="inline-block text-transparent text-lg bg-gray-700 rounded mt-1">
+                        plateforms
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
     @endforelse
 
 </div> <!-- end popular games-->
