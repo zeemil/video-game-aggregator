@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class MostAnticipated extends Component
@@ -30,10 +31,26 @@ class MostAnticipated extends Component
                 ->json();
         });
 
+        $this->mostAnticipated = $this->formatForView($this->mostAnticipated);
+
     }
 
     public function render()
     {
         return view('livewire.most-anticipated');
+    }
+
+    private function formatForView($games)
+    {
+        return collect($games)->map(
+            function ($game) {
+                return collect($game)->merge(
+                    [
+                        'coverImageUrl' => Str::replaceFirst('thumb', 'cover_small', $game['cover']['url']),
+                        'first_release_date' => Carbon::parse($game['first_release_date'])->format('d/m/Y')
+                    ]
+                )->toArray();
+            }
+        );
     }
 }

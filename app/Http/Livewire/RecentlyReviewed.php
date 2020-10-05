@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class RecentlyReviewed extends Component
@@ -30,9 +31,26 @@ class RecentlyReviewed extends Component
                 ->post('https://api.igdb.com/v4/games')
                 ->json();
         });
+
+        $this->recentlyReviewed = $this->formatForView($this->recentlyReviewed);
     }
     public function render()
     {
         return view('livewire.recently-reviewed');
+    }
+
+    private function formatForView($games)
+    {
+        return collect($games)->map(
+            function ($game) {
+                return collect($game)->merge(
+                    [
+                        'coverImageUrl' => Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']),
+                        'rating' => isset($game['rating']) ? round($game['rating']).'%' : null,
+                        'platforms' => collect($game['platforms'])->pluck('abbreviation')->implode(', ')
+                    ]
+                )->toArray();
+            }
+        );
     }
 }

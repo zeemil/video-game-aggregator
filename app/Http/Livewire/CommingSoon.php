@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class CommingSoon extends Component
@@ -31,10 +32,26 @@ class CommingSoon extends Component
                     ->json();
             }
         );
+
+        $this->commingSoon = $this->formatForView($this->commingSoon);
     }
 
     public function render()
     {
         return view('livewire.comming-soon');
+    }
+
+    private function formatForView($games)
+    {
+        return collect($games)->map(
+            function ($game) {
+                return collect($game)->merge(
+                    [
+                        'coverImageUrl' => Str::replaceFirst('thumb', 'cover_small', $game['cover']['url']),
+                        'first_release_date' => Carbon::parse($game['first_release_date'])->format('d/m/Y')
+                    ]
+                )->toArray();
+            }
+        );
     }
 }
