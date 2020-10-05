@@ -42,12 +42,25 @@ class GamesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+       $game = Http::withHeaders(config('services.igdb'))
+            ->withBody(
+                "fields name, cover.url, first_release_date, websites.*, videos.*, screenshots.*, 
+                similar_games.cover.url, similar_games.name, platforms.abbreviation,
+                similar_games.rating, similar_games.platforms.abbreviation, similar_games.slug,genres.name,
+                involved_companies.company.name,
+                 rating, aggregated_rating, summary, storyline;
+                where slug=\"{$slug}\";",
+                'text/html')
+            ->post('https://api.igdb.com/v4/games')
+            ->json();
+
+       abort_if(!$game, 404);
+        return view('show', ['game' => $game[0]]);
     }
 
     /**
