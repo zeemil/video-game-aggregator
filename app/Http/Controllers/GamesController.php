@@ -73,8 +73,8 @@ class GamesController extends Controller
         return collect($game)->merge(
             [
                 'coverImageUrl' => Str::replaceFirst('thumb', 'cover_big', $game['cover']['url']),
-                'memberRating' => isset($game['rating']) ? round($game['rating']).'%' : '0%',
-                'aggregatedRating' => isset($game['aggregated_rating']) ? round($game['aggregated_rating']).'%'  : '0%',
+                'memberRating' => isset($game['rating']) ? round($game['rating']) : '0',
+                'aggregatedRating' => isset($game['aggregated_rating']) ? round($game['aggregated_rating'])  : '0',
                 'platforms' => collect($game['platforms'])->pluck('abbreviation')->implode(', '),
                 'genres' => collect($game['genres'])->pluck('name')->implode(', '),
                 'involvedCompanies' => $game['involved_companies'][0]['company']['name'],
