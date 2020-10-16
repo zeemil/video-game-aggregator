@@ -19,7 +19,7 @@ class RecentlyReviewed extends Component
         $this->recentlyReviewed = Cache::remember('recently-reviewed', 3600, function () use($before, $current) {
             return Http::withHeaders(config('services.igdb'))
                 ->withBody(
-                    "fields name, cover.url, first_release_date, platforms.abbreviation, rating_count, summary, rating;
+                    "fields name, cover.url, first_release_date, platforms.abbreviation, rating_count, summary, rating, slug;
             where rating != null & cover != null
             & (first_release_date >= {$before}
             & first_release_date < {$current}
