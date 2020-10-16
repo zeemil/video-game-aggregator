@@ -20,7 +20,7 @@ class MostAnticipated extends Component
         $this->mostAnticipated = Cache::remember('most-anticipated', 3600, function () use ($afterFourMonths, $current) {
             return  Http::withHeaders(config('services.igdb'))
                 ->withBody(
-                    "fields name, cover.url, first_release_date, platforms.abbreviation, rating_count, rating;
+                    "fields name, cover.url, first_release_date, platforms.abbreviation, rating_count, rating, slug;
             where rating != null & cover != null
             & (first_release_date >= {$current}
             & first_release_date < {$afterFourMonths});
