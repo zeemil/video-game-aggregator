@@ -1,5 +1,12 @@
 <script>
-    var progressBarElement = document.getElementById('{{ $slug }}');
+    @if($event)
+    Livewire.on('gameWithRatingAdded', params => {
+        var progressBarElement = document.getElementById(params.slug);
+
+    @else
+        var progressBarElement = document.getElementById('{{ $slug }}');
+    @endif
+
 
     var bar = new ProgressBar.Circle(progressBarElement, {
         color: '#fff',
@@ -29,8 +36,15 @@
 
         }
     });
-    // bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
-    // bar.text.style.fontSize = 'rem';
 
-    bar.animate({{ $rating }} / 100);
+    @if($event)
+        bar.animate(params.rating);
+    });
+    @else
+        bar.animate({{ $rating }} / 100);
+    @endif
+
+
+
+
 </script>

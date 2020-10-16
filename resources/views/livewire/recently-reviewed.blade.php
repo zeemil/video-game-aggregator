@@ -17,7 +17,7 @@
             </div>
 
             <div class="ml-12">
-                <a href="#"
+                <a href="{{ route('games.show', $game['slug'])}}"
                    class="block text-lg font-semibold leading-tight hover:text-gray-400 mt-8">{{$game['name']}}</a>
                 <div class="text-gray-400 mt-1">
                  {{ $game['platforms'] }}

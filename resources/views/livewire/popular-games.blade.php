@@ -18,3 +18,16 @@
     @endforelse
 
 </div> <!-- end popular games-->
+
+
+@push('scripts')
+    @include('_rating',['event' => 'gameWithRatingAdded'])
+{{--    <script>--}}
+{{--    Livewire.on('gameWithRatingAdded', params => {--}}
+{{--        console.log('A post was added with the id of: ' + params.slug);--}}
+{{--    })--}}
+{{--</script>--}}
+@endpush
+
+
+
