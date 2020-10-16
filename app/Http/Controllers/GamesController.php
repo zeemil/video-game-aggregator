@@ -78,7 +78,7 @@ class GamesController extends Controller
                 'platforms' => collect($game['platforms'])->pluck('abbreviation')->implode(', '),
                 'genres' => collect($game['genres'])->pluck('name')->implode(', '),
                 'involvedCompanies' => $game['involved_companies'][0]['company']['name'],
-                'trailer' => 'https://youtube.com/watch/'.$game['videos'][0]['video_id'],
+                'trailer' => array_key_exists('videos',$game) ? 'https://youtube.com/watch/'.$game['videos'][0]['video_id'] :null,
                 'screenshots' => collect($game['screenshots'])->map(function ($screenshot){
                     return [
                         'big' => Str::replaceFirst('thumb', 'screenshot_big',$screenshot['url']),
